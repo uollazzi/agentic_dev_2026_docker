@@ -1,0 +1,20 @@
+FROM python:slim
+
+RUN apt-get update && \
+    apt-get install -y tzdata
+
+WORKDIR /usr/src/app
+
+ENV TZ="Europe/Rome"
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_ENV=development
+
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+
+COPY app.py .
+
+EXPOSE 5000
+
+CMD ["flask", "run"]

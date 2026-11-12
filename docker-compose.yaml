@@ -1,0 +1,28 @@
+services:
+  db:
+    image: mariadb:latest # https://hub.docker.com/_/mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=1234
+      - MARIADB_DATABASE=ecommerce
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  adminer:
+    image: adminer:latest
+    ports:
+      - "8080:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+
+  app-flask:
+    image: my-flask:latest
+    ports:
+      - "5000:5000"
+    volumes:
+      - logs_data:/usr/src/logs
+
+volumes:
+  mariadb_data:
+  logs_data:
